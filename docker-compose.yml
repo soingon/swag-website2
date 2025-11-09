@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  swag:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - ADMIN_PASSWORD=swagmoneyfinesser
+      # - STRIPE_SECRET_KEY=sk_test_xxx
+    volumes:
+      - ./data:/app/data
