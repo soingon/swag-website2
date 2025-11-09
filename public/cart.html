@@ -1,9 +1,0 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=viewport content=width=device-width,initial-scale=1><title>Cart - swag.</title><link rel="stylesheet" href="styles.css"></head><body>
-<header class="topbar"><div class="brand"><img src="swaglogo.jpg" class="logo"/><div class="brand-name">swag.</div></div><nav><a href="/">Home</a></nav></header>
-<div style="padding:80px 8%"><h1>Your cart</h1><div id="cartList"></div><div style="margin-top:20px"><button id="checkout" class="btn btn-primary">Checkout</button></div></div>
-<script>
-const CART_KEY = 'swag_cart_v1';
-function renderCart(){ const cart = JSON.parse(localStorage.getItem(CART_KEY)||'[]'); const data = JSON.parse(localStorage.getItem('swag_site_data_v2')||'{"products":[]}'); const list = document.getElementById('cartList'); list.innerHTML=''; let total=0; cart.forEach(id=>{ const p = data.products.find(x=>x.id===id); const el = document.createElement('div'); el.style.padding='12px'; el.style.border='1px solid rgba(0,0,0,0.06)'; el.style.marginTop='8px'; el.innerText = (p? p.name : 'Product') + ' - $' + (p? p.price : '0'); list.appendChild(el); total += p? p.price:0; }); const t = document.createElement('div'); t.style.marginTop='18px'; t.innerHTML = '<strong>Total: $'+total+'</strong>'; list.appendChild(t); }
-document.getElementById('checkout').addEventListener('click', ()=>{ alert('Checkout flow requires server/Stripe. Deploy server to enable real checkout.'); });
-renderCart();
-</script></body></html>
