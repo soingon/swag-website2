@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>swag. — modern electronics</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- top banner featuring logo and editable image -->
+<div id="top-banner" class="top-banner" style="background-image:url('swaglogo.jpg')">
+  <div class="banner-inner">
+    <img src="swaglogo.jpg" alt="swag logo" class="banner-logo"/>
+    <div class="banner-text" id="bannerText">Official site — free shipping on first order</div>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="brand"><img src="swaglogo.jpg" alt="" class="logo"/><div class="brand-name">swag.</div></div>
+  <nav><a href="#products">Products</a><a href="#about">About</a><a href="admin.html">Admin</a><a href="cart.html">Cart</a></nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-left">
+      <div class="kicker">Introducing</div>
+      <h1 class="reveal">swag. Studio — Designed to delight</h1>
+      <p class="reveal">A family of thoughtfully built electronics — minimal, powerful, friendly. Crafted with care and a little swag.</p>
+      <div class="cta-row reveal">
+        <button class="btn btn-primary" id="shopBtn">Shop Products</button>
+        <button class="btn btn-ghost" id="learnBtn">Learn more</button>
+      </div>
+    </div>
+    <div class="hero-art">
+      <canvas id="heroCanvas"></canvas>
+      <div class="badge">New</div>
+    </div>
+  </section>
+
+  <section id="products" class="section">
+    <h2 class="reveal">Products</h2>
+    <div class="products-grid" id="productGrid"></div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="about-card reveal" id="aboutCard"></div>
+  </section>
+</main>
+
+<footer class="footer">© 2025 swag. — Designed with simplicity</footer>
+
+<!-- three.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><title>Admin</title>
+<style>
+body{font-family:Arial;background:#111;color:#fff;padding:20px;}
+.card{background:#222;padding:20px;border-radius:12px;margin-bottom:20px;}
+input,textarea{width:100%;padding:8px;margin:5px 0;border-radius:6px;border:none;}
+button{padding:10px 20px;border:0;border-radius:8px;background:#0af;color:#000;font-weight:700;cursor:pointer;}
+label{font-size:14px;font-weight:700;}
+.model-preview{width:200px;height:200px;}
+</style>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head><body>
+<h1>SWAG Admin</h1>
+
+<div class="card">
+<h3>Banner</h3>
+<input id="bannerImage" placeholder="Banner Image URL">
+<input id="bannerVideo" placeholder="Banner Video URL">
+<input id="bannerText" placeholder="Headline Text">
+<input id="bannerHeight" placeholder="Height (e.g. 70vh)">
+<label><input type="checkbox" id="toggle3d"> Enable 3D</label>
+<button onclick="saveBanner()">Save Banner</button>
+</div>
+
+<div class="card">
+<h3>Upload 3D Model (.glb)</h3>
+<input type="file" id="glbFile" accept=".glb">
+<button onclick="uploadModel()">Upload</button>
+<div id="modelPrev"></div>
+</div>
+
+<div class="card">
+<h3>Add Product</h3>
+<input id="pid" placeholder="id">
+<input id="pname" placeholder="name">
+<input id="pimg" placeholder="image url">
+<button onclick="addProduct()">Add</button>
+</div>
+
+<div class="card">
+<h3>Delete Product</h3>
+<input id="delid" placeholder="id">
+<button onclick="delProduct()">Delete</button>
+</div>
+
+<div class="card">
+<h3>About</h3>
+<p style="opacity:.7;font-size:13px">Write an Apple‑style brand story. Live preview below.</p>
+
+<textarea id="about" rows="6" style="font-family:serif;font-size:16px;border:1px solid #444;"></textarea>
+<div id="aboutPreview" style="margin-top:10px;padding:15px;background:#000;border-radius:10px;font-family:serif;font-size:18px;line-height:1.5;opacity:.85;"></div>
+<script>
+document.getElementById('about').addEventListener('input',e=>{
+ document.getElementById('aboutPreview').innerHTML = e.target.value.replace(/\n/g,'<br>');
+});
+</script>
+
+<button onclick="saveAbout()">Save About</button>
+</div>
+
+<script>
+const pw="swagmoneyfinesser";
+function saveBanner(){
+fetch('/api/banner',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+password:pw,
+image:bannerImage.value,
+video:bannerVideo.value,
+text:bannerText.value,
+height:bannerHeight.value,
+enable3d:toggle3d.checked
+})}).then(()=>alert("Saved"));
+}
+function uploadModel(){
+let f=document.getElementById('glbFile').files[0];
+let fd=new FormData(); fd.append('model',f); fd.append('password',pw);
+fetch('/api/model',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{
+if(d.file){document.getElementById('modelPrev').innerHTML=
+`<model-viewer src="${d.file}" auto-rotate camera-controls class="model-preview"></model-viewer>`;}
+});
+}
+function addProduct(){
+fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({password:pw,id:pid.value,name:pname.value,img:pimg.value})})
+.then(()=>alert("Added"));
+}
+function delProduct(){
+fetch('/api/products/'+delid.value,{method:'DELETE',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({password:pw})}).then(()=>alert("Deleted"));
+}
+function saveAbout(){
+fetch('/api/about',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({password:pw,about:about.value})}).then(()=>alert("Saved"));
+}
+</script>
+</body></html>
